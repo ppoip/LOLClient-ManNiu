@@ -76,6 +76,9 @@
     <Reference Include="GameCommon">
       <HintPath>Assets\Plugins\GameCommon.dll</HintPath>
     </Reference>
+    <Reference Include="GameProtocal">
+      <HintPath>Assets\Plugins\GameProtocal.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\Login\LoginPanel.cs" />

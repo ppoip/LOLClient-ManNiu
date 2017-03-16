@@ -43,7 +43,7 @@ public class NetIO
         {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect(ip, port);
-            socket.BeginReceive(receiveBuffer, 0, 1024, SocketFlags.None, ReceiveCompleted, receiveBuffer);
+            socket.BeginReceive(receiveBuffer, 0, 1024, SocketFlags.None, ReceiveCallBack, receiveBuffer);
         }
         catch(Exception e)
         {
@@ -51,7 +51,7 @@ public class NetIO
         }
     }
 
-    private void ReceiveCompleted(IAsyncResult ar)
+    private void ReceiveCallBack(IAsyncResult ar)
     {
         try
         {
@@ -69,8 +69,11 @@ public class NetIO
                 //处理缓存中的数据
                 OnData();
             }
+
+            //递归
+            socket.BeginReceive(receiveBuffer, 0, 1024, SocketFlags.None, ReceiveCallBack, receiveBuffer);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.LogError("服务器主动断开连接");
             socket.Close();
@@ -103,5 +106,29 @@ public class NetIO
         OnData();
     }
 
+    /// <summary>
+    /// 想服务器发送数据模型
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="area"></param>
+    /// <param name="command"></param>
+    /// <param name="message"></param>
+    public void Write(byte type, int area, int command, object message)
+    {
+        SocketModel sm = new SocketModel(type, area, command, message);
+        //message encode
+        byte[] data = MessageEncoding.Encode(sm);
+        //lenght encode
+        data = LengthEncoding.encode(data);
+        try
+        {
+            //send
+            socket.Send(data);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
 
 }
