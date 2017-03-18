@@ -17,8 +17,18 @@ public class LoginPanel : MonoBehaviour
 
     public void OnBtnLoginClick()
     {
+        //account数据包
         AccountInfoDTO accountDTO = new AccountInfoDTO() { account=inputAccount.text, password=inputPassword.text };
+        //发包
         NetIO.Instance.Write(Protocal.TYPE_LOGIN, 0, LoginProtocal.LOGIN_CREQ, accountDTO);
+    }
+
+    public void OnBtnRegisterClick()
+    {
+        //account数据包
+        AccountInfoDTO accountDTO = new AccountInfoDTO() { account = inputAccount.text, password = inputPassword.text };
+        //发包
+        NetIO.Instance.Write(Protocal.TYPE_LOGIN, 0, LoginProtocal.REG_CREQ, accountDTO);
     }
 
 }

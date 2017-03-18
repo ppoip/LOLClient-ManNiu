@@ -81,8 +81,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\IHandler.cs" />
+    <Compile Include="Assets\Script\Login\LoginHandler.cs" />
     <Compile Include="Assets\Script\Login\LoginPanel.cs" />
     <Compile Include="Assets\Script\NetIO.cs" />
+    <Compile Include="Assets\Script\NetMessageUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

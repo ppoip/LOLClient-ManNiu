@@ -37,6 +37,9 @@ public class NetIO
     /// <summary> 是否正在读cache </summary>
     private bool isReading = false;
 
+    /// <summary> 接收到的全部SocketModel </summary>
+    public List<SocketModel> messages = new List<SocketModel>();
+
     private NetIO()
     {
         try
@@ -101,6 +104,7 @@ public class NetIO
         object message = MessageEncoding.Decode(data);
 
         //消息处理
+        messages.Add(message as SocketModel);
 
         //递归
         OnData();
