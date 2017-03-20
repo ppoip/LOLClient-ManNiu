@@ -7,12 +7,16 @@ using GameProtocal.dto;
 
 public class LoginPanel : MonoBehaviour
 {
+    private static LoginPanel _instance;
+    public static LoginPanel Instance { get{ return _instance; } }
+
     public InputField inputAccount;
     public InputField inputPassword;
+    public Text messageText;
 
     private void Awake()
     {
-
+        _instance = this;
     } 
 
     public void OnBtnLoginClick()
@@ -31,4 +35,8 @@ public class LoginPanel : MonoBehaviour
         NetIO.Instance.Write(Protocal.TYPE_LOGIN, 0, LoginProtocal.REG_CREQ, accountDTO);
     }
 
+    public void ShowMessage(string message)
+    {
+        messageText.text = message;
+    }
 }

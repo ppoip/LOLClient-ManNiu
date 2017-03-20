@@ -84,6 +84,7 @@
     <Compile Include="Assets\Script\IHandler.cs" />
     <Compile Include="Assets\Script\Login\LoginHandler.cs" />
     <Compile Include="Assets\Script\Login\LoginPanel.cs" />
+    <Compile Include="Assets\Script\Main\MainScene.cs" />
     <Compile Include="Assets\Script\NetIO.cs" />
     <Compile Include="Assets\Script\NetMessageUtil.cs" />
   </ItemGroup>
