@@ -9,6 +9,11 @@ public class NetMessageUtil : MonoBehaviour
     /// <summary> 游戏里所有handler </summary>
     public Dictionary<byte, IHandler> handlers = new Dictionary<byte, IHandler>();
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    } 
+
     private void Update()
     {
         while (NetIO.Instance.messages.Count > 0)

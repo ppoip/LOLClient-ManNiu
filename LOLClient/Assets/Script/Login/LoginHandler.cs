@@ -6,7 +6,7 @@ using UnityEngine;
 using GameProtocal;
 using UnityEngine.SceneManagement;
 
-public class LoginHandler : MonoBehaviour,IHandler
+public class LoginHandler : MonoSingleton<LoginHandler>,IHandler
 {
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class LoginHandler : MonoBehaviour,IHandler
 
     public void OnMessageReceived(SocketModel model)
     {
-        Debug.Log("response type code : " + model.type.ToString() + "，command code : " + model.command.ToString() + "，message : " + model.message.ToString());
+        //Debug.Log("response type code : " + model.type.ToString() + "，command code : " + model.command.ToString() + "，message : " + model.message.ToString());
         switch (model.command)
         {
             case LoginProtocal.LOGIN_SRES:

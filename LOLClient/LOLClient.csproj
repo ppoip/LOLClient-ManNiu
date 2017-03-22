@@ -81,10 +81,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CreateRolePanel.cs" />
+    <Compile Include="Assets\Script\DataModel\AbsGameDataModel.cs" />
+    <Compile Include="Assets\Script\DataModel\GameDataModelManager.cs" />
+    <Compile Include="Assets\Script\DataModel\MainDataModel.cs" />
     <Compile Include="Assets\Script\IHandler.cs" />
     <Compile Include="Assets\Script\Login\LoginHandler.cs" />
     <Compile Include="Assets\Script\Login\LoginPanel.cs" />
     <Compile Include="Assets\Script\Main\MainScene.cs" />
+    <Compile Include="Assets\Script\Main\UserHandler.cs" />
+    <Compile Include="Assets\Script\MonoSingleton.cs" />
     <Compile Include="Assets\Script\NetIO.cs" />
     <Compile Include="Assets\Script\NetMessageUtil.cs" />
   </ItemGroup>
