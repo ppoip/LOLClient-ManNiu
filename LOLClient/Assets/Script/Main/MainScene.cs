@@ -8,10 +8,24 @@ using UnityEngine.UI;
 
 public class MainScene : MonoBehaviour
 {
-    public CreateRolePanel createRolePanel;
-    public GameObject touchMask;
+    [SerializeField]
+    private CreateRolePanel createRolePanel;
 
-    public Text nameText;
+    [SerializeField]
+    private GameObject touchMask;
+
+    [SerializeField]
+    private Text nameText;
+
+    [SerializeField]
+    private Slider expSlider;
+
+    [SerializeField]
+    private Text matchText;
+
+    [SerializeField]
+    private Button matchButton;
+
 
     /// <summary> 数据Model </summary>
     private MainDataModel dataModel;
@@ -33,6 +47,9 @@ public class MainScene : MonoBehaviour
 
         //注册Model委托
         dataModel.RegisterChangeEvent(OnModelValueChange);
+
+        //Click
+        matchButton.onClick.AddListener(OnMatchButtonClick);
     }
 
     private void OnDestroy()
@@ -75,6 +92,10 @@ public class MainScene : MonoBehaviour
         touchMask.SetActive(false);
     }
 
+    /// <summary>
+    /// 当MainModel有属性改变时
+    /// </summary>
+    /// <param name="args"></param>
     private void OnModelValueChange(AbsGameDataModel.OnValueChangeArgs args)
     {
         switch (args.valueType)
@@ -88,6 +109,23 @@ public class MainScene : MonoBehaviour
     private void OnUserDTOChange(UserDTO oldValue,UserDTO newValue)
     {
         //显示名称
-        nameText.text = newValue.name;
+        nameText.text = newValue.name + " 等级:"+newValue.level;
+
+        //ExpBar
+        expSlider.value = newValue.exp / 100.0f;
+    }
+
+    private void OnMatchButtonClick()
+    {
+        if (matchText.text == "开始排队")
+        {
+            matchText.text = "退出排队";
+            //发送排队请求
+            NetIO.Instance.Write(Protocal.TYPE_MATCH, 0, MatchProtocal.ENTER_CREQ, 0);
+        }
+        else
+        {
+            matchText.text = "开始排队";
+        }
     }
 }

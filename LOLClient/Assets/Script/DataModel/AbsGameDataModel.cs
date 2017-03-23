@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbsGameDataModel 
+public abstract class AbsGameDataModel 
 {
     private Action<OnValueChangeArgs> OnValueChangeEvent;
 

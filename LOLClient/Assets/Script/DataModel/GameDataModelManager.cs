@@ -13,7 +13,8 @@ public class GameDataModelManager : MonoSingleton<GameDataModelManager>
         {
             return (T)models[typeof(T).Name];
         }
-
+        
+        //实例化
         AbsGameDataModel model = Activator.CreateInstance<T>();
         models.Add(typeof(T).Name, model);
         return (T)model;
