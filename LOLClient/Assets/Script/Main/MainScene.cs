@@ -126,6 +126,8 @@ public class MainScene : MonoBehaviour
         else
         {
             matchText.text = "开始排队";
+            //发送取消排队请求
+            NetIO.Instance.Write(Protocal.TYPE_MATCH, 0, MatchProtocal.LEAVE_CREQ, 0);
         }
     }
 }
