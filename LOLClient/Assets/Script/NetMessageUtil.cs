@@ -21,6 +21,7 @@ public class NetMessageUtil : MonoBehaviour
             SocketModel sm = NetIO.Instance.messages[0];
             NetIO.Instance.messages.RemoveAt(0);
             MessageProcess(sm);
+            Debug.Log("receive : " + sm.type.ToString() + " : " + sm.command.ToString());
         }
     }
 

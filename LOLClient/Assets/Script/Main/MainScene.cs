@@ -32,9 +32,6 @@ public class MainScene : MonoBehaviour
 
     private void Awake()
     {
-        //请求角色信息
-        NetIO.Instance.Write(Protocal.TYPE_USER, 0, UserProtocal.GET_INFO_CREQ,0);
-
         //注册弹出创建召唤师窗口
         UserHandler.Instance.OnShowCreatePanel += ShowCreateUserPanel;
         UserHandler.Instance.OnHideCreatePanel += HideCreateUserPanel;
@@ -50,6 +47,12 @@ public class MainScene : MonoBehaviour
 
         //Click
         matchButton.onClick.AddListener(OnMatchButtonClick);
+    }
+
+    private void Start()
+    {
+        //请求角色信息
+        NetIO.Instance.Write(Protocal.TYPE_USER, 0, UserProtocal.GET_INFO_CREQ, 0);
     }
 
     private void OnDestroy()

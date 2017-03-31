@@ -104,6 +104,9 @@ public class UserHandler : MonoSingleton<UserHandler>, IHandler
         else
         {
             Debug.Log("角色已经在线");
+            //隐藏Mask，用户可点击ui
+            if (OnHideMask != null)
+                OnHideMask();
         }
     }
 

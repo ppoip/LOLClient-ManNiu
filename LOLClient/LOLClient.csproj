@@ -89,10 +89,13 @@
     <Compile Include="Assets\Script\Login\LoginPanel.cs" />
     <Compile Include="Assets\Script\Main\CreateRolePanel.cs" />
     <Compile Include="Assets\Script\Main\MainScene.cs" />
+    <Compile Include="Assets\Script\Main\MatchHandler.cs" />
     <Compile Include="Assets\Script\Main\UserHandler.cs" />
     <Compile Include="Assets\Script\MonoSingleton.cs" />
     <Compile Include="Assets\Script\NetIO.cs" />
     <Compile Include="Assets\Script\NetMessageUtil.cs" />
+    <Compile Include="Assets\Script\Select\SelectHandler.cs" />
+    <Compile Include="Assets\Script\Select\SelectScene.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
