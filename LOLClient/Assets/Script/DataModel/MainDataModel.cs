@@ -15,6 +15,10 @@ public class MainDataModel : AbsGameDataModel
             _userDTO = value;
             BroadcastEvent(new OnValueChangeArgs() { valueType = (int)ModelValueType.UserDTO, oldValue = temp_old_value, newValue = _userDTO });
         }
+        get
+        {
+            return _userDTO;
+        }
     }
 
     /// <summary> 房间内所有玩家model </summary>

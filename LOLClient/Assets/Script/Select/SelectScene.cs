@@ -17,7 +17,14 @@ public class SelectScene : MonoBehaviour
     [SerializeField]
     private InputField chatInput;
 
-    MainDataModel mainDataModel;
+    private MainDataModel mainDataModel;
+
+
+    public PlayerFrame[] leftPlayerFrame;
+    public PlayerFrame[] rightPlayerFrame;
+
+    /// <summary> 玩家id与PlayerFrame映射 </summary>
+    private Dictionary<int, PlayerFrame> playerFrameMap = new Dictionary<int, PlayerFrame>();
 
     private void Awake()
     {
@@ -70,7 +77,34 @@ public class SelectScene : MonoBehaviour
         mask.SetActive(false);
 
         //刷新UI，刷新显示房间所有队员的UI
-        //TODO
+        //获取对应的队伍
+        List<SelectModel> ourPart = null;
+        List<SelectModel> enemyPart = null;
+        if (new List<SelectModel>(dto.teamOne).Find(x => x.userId == mainDataModel.UserDTO.id)!=null)
+        {
+            ourPart = new List<SelectModel>(dto.teamOne);
+            enemyPart = new List<SelectModel>(dto.teamTwo);
+        }
+        if (new List<SelectModel>(dto.teamTwo).Find(x => x.userId == mainDataModel.UserDTO.id) != null)
+        {
+            ourPart = new List<SelectModel>(dto.teamTwo);
+            enemyPart = new List<SelectModel>(dto.teamOne);
+        }
+        //刷新UI并添加映射
+        for(int i = 0; i < ourPart.Count; i++)
+        {
+            //UI
+            leftPlayerFrame[i].RefreshUI(ourPart[i]);
+            //添加映射
+            playerFrameMap.Add(ourPart[i].userId, leftPlayerFrame[i]);
+        }
+        for (int i = 0; i < enemyPart.Count; i++)
+        {
+            //UI
+            rightPlayerFrame[i].RefreshUI(enemyPart[i]);
+            //添加映射
+            playerFrameMap.Add(enemyPart[i].userId, rightPlayerFrame[i]);
+        }
 
         //显示玩家拥有的英雄列表
         //TODO
@@ -83,7 +117,10 @@ public class SelectScene : MonoBehaviour
     private void OnSelectRoomModelChange(SelectModel model)
     {
         //刷新显示该玩家的UI
-        //TODO
+        if (playerFrameMap.ContainsKey(model.userId))
+        {
+            playerFrameMap[model.userId].RefreshUI(model);
+        }
     }
 
     private void OnChatChange(List<string> chats)
@@ -94,8 +131,8 @@ public class SelectScene : MonoBehaviour
         //添加显示到UI
         chatText.text += latestChat + "\n";
 
-        var pos = chatText.GetComponent<RectTransform>().position;
-        chatText.GetComponent<RectTransform>().position = new Vector3(pos.x, chatText.GetComponent<RectTransform>().rect.height, pos.z);
+        //var pos = chatText.GetComponent<RectTransform>().position;
+        //chatText.GetComponent<RectTransform>().position = new Vector3(pos.x, chatText.GetComponent<RectTransform>().rect.height, pos.z);
     }
 
     private void OnRoomDestroy()
