@@ -17,10 +17,23 @@ public class SelectScene : MonoBehaviour
     [SerializeField]
     private InputField chatInput;
 
+    [SerializeField]
+    private ScrollRect chatScrollRect;
+
+    [SerializeField]
+    private Button readyButton;
+
+    /// <summary> 英雄列表View </summary>
+    [SerializeField]
+    private HeroListFrame heroListFrame;
+
+    /// <summary> 数据model </summary>
     private MainDataModel mainDataModel;
 
-
+    /// <summary> 己方player列表 </summary>
     public PlayerFrame[] leftPlayerFrame;
+
+    /// <summary> 敌方player列表 </summary>
     public PlayerFrame[] rightPlayerFrame;
 
     /// <summary> 玩家id与PlayerFrame映射 </summary>
@@ -34,13 +47,18 @@ public class SelectScene : MonoBehaviour
         mainDataModel.RegisterChangeEvent(OnModelValueChange);
         SelectHandler.Instance.OnRoomDestroy += OnRoomDestroy;
         transform.Find("BtnCharSend").GetComponent<Button>().onClick.AddListener(OnBtnSendChatClick);
+
+        readyButton.onClick.AddListener(OnReadyButtonClick);
     }
 
     private void OnDestroy()
     {
         //注销委托
         mainDataModel.RegisterChangeEvent(OnModelValueChange);
-        SelectHandler.Instance.OnRoomDestroy -= OnRoomDestroy;
+        if (SelectHandler.Instance != null)
+        {
+            SelectHandler.Instance.OnRoomDestroy -= OnRoomDestroy;
+        }
     }
 
     private void Start()
@@ -106,9 +124,10 @@ public class SelectScene : MonoBehaviour
             playerFrameMap.Add(enemyPart[i].userId, rightPlayerFrame[i]);
         }
 
-        //显示玩家拥有的英雄列表
-        //TODO
+        //刷新英雄列表UI
+        heroListFrame.RefreshHeroList(mainDataModel.UserDTO.ownHeroList);
     }
+
 
     /// <summary>
     /// 当房间某个人的model发生改变时
@@ -121,6 +140,31 @@ public class SelectScene : MonoBehaviour
         {
             playerFrameMap[model.userId].RefreshUI(model);
         }
+
+        //刷新英雄列表UI
+        if (!GetOwnModel().isReady)  //准备后不需要刷新英雄列表
+        {
+            heroListFrame.RefreshHeroList(mainDataModel.UserDTO.ownHeroList);
+        }
+
+        //准备按钮及英雄列表
+        if (model.userId == mainDataModel.UserDTO.id)
+        {
+            if (model.hero != -1 && model.isReady==false)
+                readyButton.interactable = true;
+
+            if (model.isReady == true)
+            {
+                //准备后准备按钮不可按
+                readyButton.interactable = false;
+                //准备后全部英雄变得不可选
+                var heroFrames = heroListFrame.GetComponentsInChildren<HeroFrame>();
+                foreach(var heroFrame in heroFrames)
+                {
+                    heroFrame.DeActive();
+                }
+            }
+        }
     }
 
     private void OnChatChange(List<string> chats)
@@ -131,8 +175,7 @@ public class SelectScene : MonoBehaviour
         //添加显示到UI
         chatText.text += latestChat + "\n";
 
-        //var pos = chatText.GetComponent<RectTransform>().position;
-        //chatText.GetComponent<RectTransform>().position = new Vector3(pos.x, chatText.GetComponent<RectTransform>().rect.height, pos.z);
+        chatScrollRect.verticalNormalizedPosition = 0;
     }
 
     private void OnRoomDestroy()
@@ -148,6 +191,39 @@ public class SelectScene : MonoBehaviour
         //发送聊天信息
         NetIO.Instance.Write(Protocal.TYPE_SELECT, 0, SelectProtocal.TALK_CREQ, chatInput.text);
         chatInput.text = "";
+    }
+
+    /// <summary>
+    /// 准备按钮按下
+    /// </summary>
+    private void OnReadyButtonClick()
+    {
+        //准备请求
+        NetIO.Instance.Write(Protocal.TYPE_SELECT, 0, SelectProtocal.READY_CREQ, 0);
+    }
+
+    private SelectModel GetOwnModel()
+    {
+        //获取对应的队伍
+        List<SelectModel> ourPart = null;
+        SelectRoomDTO dto = mainDataModel.SelectRoomDTO;
+        if (new List<SelectModel>(dto.teamOne).Find(x => x.userId == mainDataModel.UserDTO.id) != null)
+        {
+            ourPart = new List<SelectModel>(dto.teamOne);
+        }
+        if (new List<SelectModel>(dto.teamTwo).Find(x => x.userId == mainDataModel.UserDTO.id) != null)
+        {
+            ourPart = new List<SelectModel>(dto.teamTwo);
+        }
+        foreach(var model in ourPart)
+        {
+            if (model.userId == mainDataModel.UserDTO.id)
+            {
+                return model;
+            }
+        }
+
+        return null;
     }
 
 }

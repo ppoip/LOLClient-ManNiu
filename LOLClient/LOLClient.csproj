@@ -94,6 +94,8 @@
     <Compile Include="Assets\Script\MonoSingleton.cs" />
     <Compile Include="Assets\Script\NetIO.cs" />
     <Compile Include="Assets\Script\NetMessageUtil.cs" />
+    <Compile Include="Assets\Script\Select\HeroFrame.cs" />
+    <Compile Include="Assets\Script\Select\HeroListFrame.cs" />
     <Compile Include="Assets\Script\Select\PlayerFrame.cs" />
     <Compile Include="Assets\Script\Select\SelectHandler.cs" />
     <Compile Include="Assets\Script\Select\SelectScene.cs" />
