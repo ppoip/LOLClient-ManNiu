@@ -118,7 +118,8 @@ public class SelectHandler : MonoSingleton<SelectHandler>, IHandler
 
     private void ProcessFightBro()
     {
-        //TODO
+        //直接加载战斗场景
+
     }
 
     private void ProcessDestroyBro()
