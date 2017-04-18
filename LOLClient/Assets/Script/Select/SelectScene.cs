@@ -54,7 +54,7 @@ public class SelectScene : MonoBehaviour
     private void OnDestroy()
     {
         //注销委托
-        mainDataModel.RegisterChangeEvent(OnModelValueChange);
+        mainDataModel.RemoveChangeEvent(OnModelValueChange);
         if (SelectHandler.Instance != null)
         {
             SelectHandler.Instance.OnRoomDestroy -= OnRoomDestroy;

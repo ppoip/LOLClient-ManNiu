@@ -5,6 +5,7 @@ using GameCommon;
 using UnityEngine;
 using GameProtocal;
 using GameProtocal.dto;
+using UnityEngine.SceneManagement;
 
 public class SelectHandler : MonoSingleton<SelectHandler>, IHandler
 {
@@ -119,7 +120,7 @@ public class SelectHandler : MonoSingleton<SelectHandler>, IHandler
     private void ProcessFightBro()
     {
         //直接加载战斗场景
-
+        SceneManager.LoadScene("fight");
     }
 
     private void ProcessDestroyBro()

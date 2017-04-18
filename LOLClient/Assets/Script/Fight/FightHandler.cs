@@ -8,8 +8,11 @@ using GameProtocal.dto.fight;
 
 public class FightHandler : MonoSingleton<FightHandler>, IHandler
 {
+    private FightDataModel fightDataModel;
+
     private void Awake()
     {
+        fightDataModel = GameDataModelManager.Instance.GetModel<FightDataModel>();
         GetComponent<NetMessageUtil>().handlers.Add(Protocal.TYPE_FIGHT, this);
     }
 
@@ -29,7 +32,7 @@ public class FightHandler : MonoSingleton<FightHandler>, IHandler
     /// <param name="models"></param>
     private void ProcessStart(FightRoomModels models)
     {
-
+        fightDataModel.FightRoomModels = models;
     }
 
 }

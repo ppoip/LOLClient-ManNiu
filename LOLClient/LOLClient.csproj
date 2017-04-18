@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\DataModel\AbsGameDataModel.cs" />
+    <Compile Include="Assets\Script\DataModel\FightDataModel.cs" />
     <Compile Include="Assets\Script\DataModel\GameDataModelManager.cs" />
     <Compile Include="Assets\Script\DataModel\MainDataModel.cs" />
     <Compile Include="Assets\Script\Fight\FightHandler.cs" />
