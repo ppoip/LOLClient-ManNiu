@@ -88,8 +88,10 @@
     <Compile Include="Assets\Script\DataModel\FightDataModel.cs" />
     <Compile Include="Assets\Script\DataModel\GameDataModelManager.cs" />
     <Compile Include="Assets\Script\DataModel\MainDataModel.cs" />
+    <Compile Include="Assets\Script\Fight\AnimStateConst.cs" />
     <Compile Include="Assets\Script\Fight\FightHandler.cs" />
     <Compile Include="Assets\Script\Fight\FightScene.cs" />
+    <Compile Include="Assets\Script\Fight\PlayerController.cs" />
     <Compile Include="Assets\Script\IHandler.cs" />
     <Compile Include="Assets\Script\Login\LoginHandler.cs" />
     <Compile Include="Assets\Script\Login\LoginPanel.cs" />
