@@ -23,6 +23,7 @@ public class FightHandler : MonoSingleton<FightHandler>, IHandler
             case FightProtocal.START_BRO:
                 ProcessStart(model.message as FightRoomModels);
                 break;
+
         }
     }
 
