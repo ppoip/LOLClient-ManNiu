@@ -70,6 +70,10 @@ public class FightScene : MonoBehaviour
             case (int)FightDataModel.ModelValueType.FightRoomModels:
                 OnFightRoomModelsChange(args.newValue as FightRoomModels);
                 break;
+
+            case (int)FightDataModel.ModelValueType.HeroMove:
+                OnHeroMoveEvent(args.newValue as HeroMoveDto);
+                break;
         }
     }
 
@@ -133,6 +137,8 @@ public class FightScene : MonoBehaviour
                 selfHero = go;
             }
         }
+        //相机看向自己的英雄
+        mainCamera.LookAtTarget(selfHero.transform, new Vector3(-43.21f, -66.08f, -165.35f));
 
     }
 
@@ -168,12 +174,54 @@ public class FightScene : MonoBehaviour
 
     private void Update()
     {
-        if (selfHero)
+
+    }
+
+    /// <summary>
+    /// 当鼠标右键点击地面
+    /// </summary>
+    /// <param name="pos"></param>
+    public void OnMapGroundRightClick(Vector2 pos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(pos);
+        var hits = Physics.RaycastAll(ray, 220);
+        foreach (var item in hits)
         {
-            //相机跟随自己的英雄
-            mainCamera.LookAtTarget(selfHero.transform, new Vector3(-13.45f, 22.37f, -6.149994f));
+            //如果是敌人则普通攻击
+            //TODO
+
+            //如果是地板则寻路
+            if(item.transform.gameObject.layer == LayerMask.NameToLayer("MapGround"))
+            {
+                HeroMoveDto dto = new HeroMoveDto()
+                {
+                     x = item.point.x,
+                     y = item.point.y,
+                     z = item.point.z
+                };
+                
+                //发送移动请求
+                FightHandler.Instance.SendMoveRequest(dto);
+            }
         }
     }
 
+    /// <summary>
+    /// 当地图有英雄移动
+    /// </summary>
+    /// <param name="dto"></param>
+    public void OnHeroMoveEvent(HeroMoveDto dto)
+    {
+        GameObject targetHero = null;
+        if (teamOneObject.ContainsKey(dto.userId))
+        {
+            targetHero = teamOneObject[dto.userId];
+        }
+        if (teamTwoObject.ContainsKey(dto.userId))
+        {
+            targetHero = teamTwoObject[dto.userId];
+        }
 
+        targetHero.SendMessage("MoveTo", new Vector3() { x = dto.x, y = dto.y, z = dto.z });
+    }
 }

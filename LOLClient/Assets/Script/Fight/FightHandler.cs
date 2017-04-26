@@ -24,6 +24,9 @@ public class FightHandler : MonoSingleton<FightHandler>, IHandler
                 ProcessStart(model.message as FightRoomModels);
                 break;
 
+            case FightProtocal.MOVE_BRO:
+                ProcessHeroMove(model.GetMessage<HeroMoveDto>());
+                break;
         }
     }
 
@@ -34,6 +37,24 @@ public class FightHandler : MonoSingleton<FightHandler>, IHandler
     private void ProcessStart(FightRoomModels models)
     {
         fightDataModel.FightRoomModels = models;
+    }
+
+    /// <summary>
+    /// 处理英雄移动
+    /// </summary>
+    /// <param name="dto"></param>
+    private void ProcessHeroMove(HeroMoveDto dto)
+    {
+        fightDataModel.BroadcaseHeroMove(dto);
+    }
+
+    /// <summary>
+    /// 发送移动请求给服务器
+    /// </summary>
+    /// <param name="dto"></param>
+    public void SendMoveRequest(HeroMoveDto dto)
+    {
+        NetIO.Instance.Write(Protocal.TYPE_FIGHT, 0, FightProtocal.MOVE_CREQ, dto);
     }
 
 }
