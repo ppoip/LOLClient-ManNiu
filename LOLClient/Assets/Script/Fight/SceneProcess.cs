@@ -47,7 +47,11 @@ public class SceneProcess : MonoBehaviour,IPointerClickHandler
 
         //Debug.Log(mousePos.x + " : " + mousePos.y);
 
-
+        if (Input.GetKey(KeyCode.Space))
+        {
+            //按下空格键相机看向英雄
+            mainCamera.LookAtTarget(fightScene.selfHero.transform, new Vector3(-43.21f, -66.08f, -165.35f));
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
