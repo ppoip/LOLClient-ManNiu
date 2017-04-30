@@ -104,10 +104,16 @@ public class FightScene : MonoBehaviour
 
             if (item.id == mainDataModel.UserDTO.id)
             {
-                //刷新所有UI
-                RefreshAllUI(item as PlayerFightModel);
                 //标记自身英雄
                 selfHero = go;
+                //刷新所有UI
+                RefreshAllUI(item as PlayerFightModel);
+            }
+
+            if (item.modelType == ModelType.Human)
+            {
+                //设置英雄数据
+                go.GetComponent<PlayerController>().SetData(item as PlayerFightModel);
             }
         }
         foreach (var item in models.teamTwo)
@@ -131,10 +137,16 @@ public class FightScene : MonoBehaviour
 
             if (item.id == mainDataModel.UserDTO.id)
             {
-                //刷新所有UI
-                RefreshAllUI(item as PlayerFightModel);
                 //标记自身英雄
                 selfHero = go;
+                //刷新所有UI
+                RefreshAllUI(item as PlayerFightModel);
+            }
+
+            if (item.modelType == ModelType.Human)
+            {
+                //设置英雄数据
+                go.GetComponent<PlayerController>().SetData(item as PlayerFightModel);
             }
         }
         //相机看向自己的英雄
@@ -171,6 +183,10 @@ public class FightScene : MonoBehaviour
 
 
     }
+
+
+
+
 
     private void Update()
     {

@@ -25,7 +25,7 @@ public class NetIO
     }
 
     private Socket socket;
-    private string ip= "192.168.1.110";
+    private string ip= "127.0.0.1";
     private int port=6550;
 
     /// <summary> receive 临时缓冲区 </summary>
