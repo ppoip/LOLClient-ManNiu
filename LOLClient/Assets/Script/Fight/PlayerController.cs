@@ -7,16 +7,28 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerFightModel data;
+    private PlayerFightModel _data;
+    public PlayerFightModel Data
+    {
+        get
+        {
+            return _data;
+        }
+        set
+        {
+            this._data = value;
+            RefreshHeroUI();
+        }
+    }
 
-    private NavMeshAgent navAgent;
-    private Animator animator;
+    protected NavMeshAgent navAgent;
+    protected Animator animator;
 
     private Slider hpSlider;
     private TextMesh textName;
 
     /// <summary> 当前的英雄状态 </summary>
-    private int curAnimState = AnimStateConst.IDLE;
+    protected int curAnimState = AnimStateConst.IDLE;
 
     private void Awake()
     {
@@ -48,11 +60,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetData(PlayerFightModel model)
+
+    public virtual void Attack(GameObject[] targets)
     {
-        this.data = model;
-        RefreshHeroUI();
+
+    } 
+
+    public virtual void AttackAnimEnd()
+    {
+
     }
+
+
 
     /// <summary>
     /// 移动到目标点
@@ -67,7 +86,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void SetState(int state)
+    protected void SetState(int state)
     {
         curAnimState = state;
         animator.SetInteger("state", state);
@@ -90,8 +109,8 @@ public class PlayerController : MonoBehaviour
     {
         Slider hpSlider = transform.Find("Canvas/HPBar").GetComponent<Slider>();
         TextMesh textName = transform.Find("Canvas/HeroName").GetComponent<TextMesh>();
-        hpSlider.value = this.data.curHp / this.data.maxHp;
-        textName.text = this.data.name;
+        hpSlider.value = this._data.curHp / this._data.maxHp;
+        textName.text = this._data.name;
     }
 
 }

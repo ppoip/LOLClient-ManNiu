@@ -27,6 +27,10 @@ public class FightHandler : MonoSingleton<FightHandler>, IHandler
             case FightProtocal.MOVE_BRO:
                 ProcessHeroMove(model.GetMessage<HeroMoveDto>());
                 break;
+
+            case FightProtocal.ATTACK_BRO:
+                ProcessHeroAttack(model.message as HeroAttackDto);
+                break;
         }
     }
 
@@ -45,7 +49,16 @@ public class FightHandler : MonoSingleton<FightHandler>, IHandler
     /// <param name="dto"></param>
     private void ProcessHeroMove(HeroMoveDto dto)
     {
-        fightDataModel.BroadcaseHeroMove(dto);
+        fightDataModel.BroadcastHeroMove(dto);
+    }
+
+    /// <summary>
+    /// 处理英雄普通攻击
+    /// </summary>
+    /// <param name="dto"></param>
+    private void ProcessHeroAttack(HeroAttackDto dto)
+    {
+        fightDataModel.BroadcastHeroAttack(dto);
     }
 
     /// <summary>

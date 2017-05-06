@@ -24,15 +24,21 @@ public class FightDataModel : AbsGameDataModel
     /// 广播英雄移动事件
     /// </summary>
     /// <param name="dto"></param>
-    public void BroadcaseHeroMove(HeroMoveDto dto)
+    public void BroadcastHeroMove(HeroMoveDto dto)
     {
         BroadcastEvent(new OnValueChangeArgs() { valueType = (int)ModelValueType.HeroMove, newValue = dto, oldValue = null });
+    }
+
+    public void BroadcastHeroAttack(HeroAttackDto dto)
+    {
+        BroadcastEvent(new OnValueChangeArgs() { valueType = (int)ModelValueType.HeroAttack, newValue = dto, oldValue = null });
     }
 
 
     public enum ModelValueType
     {
         FightRoomModels,         //房间所有战斗模型
-        HeroMove                 //英雄移动
+        HeroMove,                //英雄移动
+        HeroAttack               //英雄普通攻击
     }
 }
