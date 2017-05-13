@@ -37,6 +37,9 @@ public class FightScene : MonoBehaviour
     [SerializeField]
     private CameraController mainCamera;
 
+    [SerializeField]
+    private GameObject damageNumParent;
+
     public Dictionary<int, GameObject> teamOneObject = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> teamTwoObject = new Dictionary<int, GameObject>();
 
@@ -80,6 +83,10 @@ public class FightScene : MonoBehaviour
 
             case (int)FightDataModel.ModelValueType.HeroAttack:
                 OnHeroAttackEvent(args.newValue as HeroAttackDto);
+                break;
+
+            case (int)FightDataModel.ModelValueType.Damage:
+                OnDamageEvent(args.newValue as DamageDTO);
                 break;
         }
     }
@@ -338,6 +345,55 @@ public class FightScene : MonoBehaviour
     }
 
     /// <summary>
+    /// 当有英雄建筑小兵收到伤害时
+    /// </summary>
+    /// <param name="dto"></param>
+    private void OnDamageEvent(DamageDTO dto)
+    {
+        foreach (var item in dto.parameters)
+        {
+            //被攻击对象的控制类
+            PlayerController playerCtrl = GetTeamObjectById(item[0]).GetComponent<PlayerController>();
+            playerCtrl.Data.curHp -= item[1];
+
+            //显示伤害数字
+            GameObject numTextPrefab = Resources.Load<GameObject>("UIPrefabs/DamageNum");
+            GameObject numText = GameObject.Instantiate(numTextPrefab, damageNumParent.transform);
+            numText.GetComponent<DamageNum>().SetText(item[1].ToString());
+            numText.transform.localScale = Vector3.one;
+            (numText.transform as RectTransform).position = Camera.main.WorldToScreenPoint(GetTeamObjectById(item[0]).transform.position) + Vector3.up * 25;
+
+
+            //刷新头顶血条
+            playerCtrl.RefreshUI();
+
+            if (item[0] >= 0)  //英雄 
+            {
+                if (item[0] == mainDataModel.UserDTO.id)
+                {
+                    //被攻击的是自己的英雄，刷新UI血量
+                    RefreshAllUI(playerCtrl.Data);
+                }
+
+                if (item[2] == 0)
+                {
+                    //英雄死亡，暂时隐藏
+                    GetTeamObjectById(item[0]).SetActive(false);
+                }
+            }
+            else  //小兵以及建筑
+            {
+                if (item[2] == 0)
+                {
+                    //死亡 销毁游戏对象
+                    Destroy(GetTeamObjectById(item[0]));
+                }
+            }
+
+        }
+    }
+
+    /// <summary>
     /// 获取我方所有对象
     /// </summary>
     /// <returns></returns>
@@ -384,4 +440,13 @@ public class FightScene : MonoBehaviour
         }
         return objs;
     }
+
+    private GameObject GetTeamObjectById(int id)
+    {
+        if (teamOneObject.ContainsKey(id))
+            return teamOneObject[id];
+
+        return teamTwoObject[id];
+    }
+
 }

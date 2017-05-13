@@ -34,7 +34,12 @@ public class HeroAliCtrl : PlayerController
         base.AttackAnimEnd();
 
         //实例化一个球特效飞向敌人
-        //TODO
+        foreach (var item in curTargets)
+        {
+            GameObject effectPrefab = Resources.Load<GameObject>("FightPrefabs/SkillEffect/AliAttackEffect");
+            GameObject effectObj = GameObject.Instantiate(effectPrefab,this.transform.position+ new Vector3(0, 2, 0), Quaternion.identity);
+            effectObj.GetComponent<TargetSkillCtrl>().Init(Data.id, item.GetComponent<PlayerController>().Data.id, -1, item.transform);
+        }
 
         //切换idle状态
         SetState(AnimStateConst.IDLE);

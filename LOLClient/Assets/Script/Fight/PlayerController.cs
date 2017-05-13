@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
         set
         {
             this._data = value;
-            RefreshHeroUI();
+            RefreshUI();
         }
     }
 
@@ -105,11 +105,11 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 刷新显示英雄的3DUI
     /// </summary>
-    private void RefreshHeroUI()
+    public void RefreshUI()
     {
         Slider hpSlider = transform.Find("Canvas/HPBar").GetComponent<Slider>();
         TextMesh textName = transform.Find("Canvas/HeroName").GetComponent<TextMesh>();
-        hpSlider.value = this._data.curHp / this._data.maxHp;
+        hpSlider.value = (float)this._data.curHp / this._data.maxHp;
         textName.text = this._data.name;
     }
 

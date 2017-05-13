@@ -90,17 +90,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\HeroAliCtrl.cs" />
     <Compile Include="Assets\Script\CameraController.cs" />
     <Compile Include="Assets\Script\DataModel\AbsGameDataModel.cs" />
     <Compile Include="Assets\Script\DataModel\FightDataModel.cs" />
     <Compile Include="Assets\Script\DataModel\GameDataModelManager.cs" />
     <Compile Include="Assets\Script\DataModel\MainDataModel.cs" />
     <Compile Include="Assets\Script\Fight\AnimStateConst.cs" />
+    <Compile Include="Assets\Script\Fight\DamageNum.cs" />
     <Compile Include="Assets\Script\Fight\FightHandler.cs" />
     <Compile Include="Assets\Script\Fight\FightScene.cs" />
+    <Compile Include="Assets\Script\Fight\HeroAliCtrl.cs" />
     <Compile Include="Assets\Script\Fight\PlayerController.cs" />
     <Compile Include="Assets\Script\Fight\SceneProcess.cs" />
+    <Compile Include="Assets\Script\Fight\TargetSkillCtrl.cs" />
     <Compile Include="Assets\Script\Fight\UISkillItem.cs" />
     <Compile Include="Assets\Script\IHandler.cs" />
     <Compile Include="Assets\Script\Login\LoginHandler.cs" />

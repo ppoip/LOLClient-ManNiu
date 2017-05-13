@@ -29,9 +29,22 @@ public class FightDataModel : AbsGameDataModel
         BroadcastEvent(new OnValueChangeArgs() { valueType = (int)ModelValueType.HeroMove, newValue = dto, oldValue = null });
     }
 
+    /// <summary>
+    /// 广播英雄普通攻击
+    /// </summary>
+    /// <param name="dto"></param>
     public void BroadcastHeroAttack(HeroAttackDto dto)
     {
         BroadcastEvent(new OnValueChangeArgs() { valueType = (int)ModelValueType.HeroAttack, newValue = dto, oldValue = null });
+    }
+
+    /// <summary>
+    /// 广播受到伤害
+    /// </summary>
+    /// <param name="dto"></param>
+    public void BroadcastDamage(DamageDTO dto)
+    {
+        BroadcastEvent(new OnValueChangeArgs() { valueType = (int)ModelValueType.Damage, newValue = dto, oldValue = null });
     }
 
 
@@ -39,6 +52,7 @@ public class FightDataModel : AbsGameDataModel
     {
         FightRoomModels,         //房间所有战斗模型
         HeroMove,                //英雄移动
-        HeroAttack               //英雄普通攻击
+        HeroAttack,              //英雄普通攻击
+        Damage
     }
 }
