@@ -88,6 +88,10 @@ public class FightScene : MonoBehaviour
             case (int)FightDataModel.ModelValueType.Damage:
                 OnDamageEvent(args.newValue as DamageDTO);
                 break;
+
+            case (int)FightDataModel.ModelValueType.SkillUp:
+                OnSkillUp(args.newValue as FightSkill);
+                break;
         }
     }
 
@@ -230,8 +234,31 @@ public class FightScene : MonoBehaviour
             i++;
         }
 
+    }
 
-
+    /// <summary>
+    /// 刷新技能格子UI
+    /// </summary>
+    private void RefreshSkillUI()
+    {
+        PlayerFightModel selfModel = fightDataModel.SelfFightModel;
+        for (int i = 0; i < selfModel.skills.Length; i++)
+        {
+            if (selfModel.free > 0)
+            {
+                //有技能点
+                if(selfModel.skills[i].nextLevel!=-1 && selfModel.level >= selfModel.skills[i].nextLevel)
+                {
+                    //可升级时，显示加号按钮
+                    uiSkillItems[i].ActivePlusBtn();
+                }
+            }
+            else
+            {
+                //没有技能点，隐藏加号按钮
+                uiSkillItems[i].DeActivePlusBtn();
+            }
+        }
     }
 
 
@@ -391,6 +418,38 @@ public class FightScene : MonoBehaviour
             }
 
         }
+    }
+
+    /// <summary>
+    /// 技能升级成功响应
+    /// </summary>
+    /// <param name="skillDTO"></param>
+    private void OnSkillUp(FightSkill skillDTO)
+    {
+        //减少技能点
+        fightDataModel.SelfFightModel.free--;
+
+        //覆盖技能模型
+        for (int i = 0; i < fightDataModel.SelfFightModel.skills.Length; i++)
+        {
+            if(fightDataModel.SelfFightModel.skills[i].code == skillDTO.code)
+            {
+                fightDataModel.SelfFightModel.skills[i] = skillDTO;
+            }
+        }
+
+        //覆盖技能UI上的数据模型
+        for (int i = 0; i < fightDataModel.SelfFightModel.skills.Length; i++)
+        {
+            if(uiSkillItems[i].FightSkill.code == skillDTO.code)
+            {
+                uiSkillItems[i].FightSkill = skillDTO;
+                uiSkillItems[i].ActiveSelf();
+            }
+        }
+
+        //刷新UI
+        RefreshSkillUI();
     }
 
     /// <summary>

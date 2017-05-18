@@ -35,6 +35,10 @@ public class FightHandler : MonoSingleton<FightHandler>, IHandler
             case FightProtocal.DAMAGE_BRO:
                 ProcessDamage(model.message as DamageDTO);
                 break;
+
+            case FightProtocal.SKILL_UP_SRES:
+                ProcessSkillUp(model.message as FightSkill);
+                break;
         }
     }
 
@@ -72,6 +76,11 @@ public class FightHandler : MonoSingleton<FightHandler>, IHandler
     private void ProcessDamage(DamageDTO dto)
     {
         fightDataModel.BroadcastDamage(dto);
+    }
+
+    private void ProcessSkillUp(FightSkill skillDTO)
+    {
+        fightDataModel.NoticeSkillUp(skillDTO);
     }
 
     /// <summary>

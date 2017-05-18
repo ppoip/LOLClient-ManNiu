@@ -1,4 +1,5 @@
-﻿using GameProtocal.dto.fight;
+﻿using GameProtocal;
+using GameProtocal.dto.fight;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class UISkillItem : MonoBehaviour
     private Image iconImage;
     private Image maskImage;
     private Button skillButton;
+
+    [SerializeField]
+    private Button plusBtn;
 
     public FightSkill FightSkill { get; set; }
 
@@ -24,7 +28,7 @@ public class UISkillItem : MonoBehaviour
     {
         FightSkill = data;
         maskImage.fillAmount = 0;  //默认不冷却
-        skillButton.interactable = false; //一开始0级不可点击
+        DeActiveSelf();            //一开始0级不可点击
 
         RefreshUI(data);
     }
@@ -52,7 +56,27 @@ public class UISkillItem : MonoBehaviour
     /// </summary>
     public void OnPlusBtnClick()
     {
+        NetIO.Instance.Write(Protocal.TYPE_FIGHT, 0, FightProtocal.SKILL_UP_CREQ, FightSkill.code);
+    }
 
+    public void ActiveSelf()
+    {
+        skillButton.interactable = true;
+    }
+
+    public void DeActiveSelf()
+    {
+        skillButton.interactable = false;
+    }
+
+    public void ActivePlusBtn()
+    {
+        plusBtn.interactable = true;
+    }
+
+    public void DeActivePlusBtn()
+    {
+        plusBtn.interactable = false;
     }
 
 }

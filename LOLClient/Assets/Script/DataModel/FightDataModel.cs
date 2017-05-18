@@ -20,6 +20,28 @@ public class FightDataModel : AbsGameDataModel
         }
     }
 
+    public PlayerFightModel SelfFightModel
+    {
+        get
+        {
+            foreach (var item in FightRoomModels.teamOne)
+            {
+                if(item.id == GameDataModelManager.Instance.GetModel<MainDataModel>().UserDTO.id)
+                {
+                    return item as PlayerFightModel;
+                }
+            }
+            foreach (var item in FightRoomModels.teamTwo)
+            {
+                if (item.id == GameDataModelManager.Instance.GetModel<MainDataModel>().UserDTO.id)
+                {
+                    return item as PlayerFightModel;
+                }
+            }
+            return null;
+        }
+    }
+
     /// <summary>
     /// 广播英雄移动事件
     /// </summary>
@@ -47,12 +69,22 @@ public class FightDataModel : AbsGameDataModel
         BroadcastEvent(new OnValueChangeArgs() { valueType = (int)ModelValueType.Damage, newValue = dto, oldValue = null });
     }
 
+    /// <summary>
+    /// 通知技能升级
+    /// </summary>
+    /// <param name="skillDTO"></param>
+    public void NoticeSkillUp(FightSkill skillDTO)
+    {
+        BroadcastEvent(new OnValueChangeArgs() { valueType = (int)ModelValueType.SkillUp, newValue = skillDTO, oldValue = null });
+    }
+
 
     public enum ModelValueType
     {
         FightRoomModels,         //房间所有战斗模型
         HeroMove,                //英雄移动
         HeroAttack,              //英雄普通攻击
-        Damage
+        Damage,                  //场景有物体受到伤害
+        SkillUp                  //技能升级响应
     }
 }
